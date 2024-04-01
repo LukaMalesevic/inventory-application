@@ -1,0 +1,9 @@
+extends layout 
+
+block content
+  div.content
+    h1= title 
+    ul 
+      each val in category_list 
+        li Name:
+         a(href=`categories/${val._id}`) #{val.name}
