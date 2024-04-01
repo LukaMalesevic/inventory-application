@@ -27,3 +27,58 @@ exports.steroid_list = asyncHandler(async (req, res, next) =>{
 
     res.render("steroid_list", { title: "List of all Steroids", steroid_list: allSteroids});
 });
+
+exports.steroid_details = asyncHandler(async (req, res, next) =>{
+    const currentSteroid = await Steroid.findById(req.params.id).exec();
+    const currentCategory = await Category.findById(currentSteroid.category).exec();
+
+    if(currentSteroid === null){
+        const err = new Error("Steroid not found");
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render("steroid_details", {
+        title: "Steroid details",
+        steroid: currentSteroid,
+        category: currentCategory
+    });
+});
+
+exports.steroid_create_get = asyncHandler(async (req, res, next) =>{
+    const allCategories = await Category.find({}).exec();
+    res.render("steroid_form", {title: "Create new Steroid", categories: allCategories});
+});
+
+exports.steroid_create_post = [
+    body("steroid_name")
+        .trim()
+        .isLength({min: 1})
+        .escape(),
+    asyncHandler(async (req, res, next) =>{
+        const errors = validationResult(req);
+
+        const steroid = new Steroid({
+            name: req.body.steroid_name,
+            description: req.body.steroid_description,
+            category: req.body.steroid_category,
+            price: req.body.steroid_price,
+            number_in_stock: req.body.steroid_count
+        })
+
+        if(!errors.isEmpty()){
+            res.render("steroid_form", {
+                title: "Create new Steroid",
+                steroid: steroid,
+                errors: errors.array(),
+            });
+            return;
+        } else{
+            await steroid.save();
+            res.redirect(`/home/steroid/${steroid._id}`);
+        }
+    }) 
+    
+    
+]
+

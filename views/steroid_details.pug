@@ -1,0 +1,10 @@
+extends layout
+block content
+  div.content
+    h1=title
+    p Name: #{steroid.name}
+    p Description: #{steroid.description}
+    p Category: 
+      a(href=`/home/category/${category._id}`) #{category.name}
+    p Price: #{steroid.price}
+    p Number in stock: #{steroid.number_in_stock}

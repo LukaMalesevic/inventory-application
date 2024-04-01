@@ -1,0 +1,14 @@
+extends layout
+block content
+  div.content
+    h1= title 
+    p Name: #{category.name}
+    p Description: #{category.description}
+    h2 Steroids:
+    if(steroids_array.length < 1)
+      p There isnt any steroids in this category.
+    else 
+      ul
+        each val in steroids_array 
+          a(href=`/home/steroid/${val._id}`) #{val.name} 
+    

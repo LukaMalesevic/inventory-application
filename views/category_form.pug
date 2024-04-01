@@ -1,0 +1,11 @@
+extends layout
+block content
+  div.content
+    h1= title 
+    form(method="POST")
+      label(for="category_name") Name:
+      input(type="text" name="category_name" placeholder="Category name")
+      label(for="description") Description:
+      input(type="text" name="category_description" placeholder="Description")
+      input(type="submit" value="Submit")
+      
