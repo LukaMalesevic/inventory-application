@@ -1,0 +1,8 @@
+extends layout 
+block content 
+  div.content
+    h1=title 
+    p Do you really want to delete #{steroid.name}
+    form(method="POST")
+      label(for="description") Delete:
+      input(type="submit" value="Delete" name=steroid._id)

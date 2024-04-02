@@ -1,0 +1,16 @@
+extends layout 
+block content 
+  div.content
+    h1= title 
+    if list_of_steroids.length 
+      p To delete category #{category.name} you need to delete this steroids first.
+      h2 Steroids in this category:
+      ul 
+        each val in list_of_steroids 
+          li #{val.name} - #{val.description} 
+
+    else 
+      p Do you really want to delete this category :D   
+      form.delete_form(method="POST")
+        label(for="description") Delete:
+        input(type="submit" value="Delete" name=category._id)

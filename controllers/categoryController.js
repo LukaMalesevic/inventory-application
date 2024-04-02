@@ -58,3 +58,40 @@ exports.category_details = asyncHandler(async (req, res, next) =>{
 
     res.render("category_details", {title: "Category details", category: currentCategory, steroids_array: arrayOfSteroids});
 });
+
+exports.category_delete_get = asyncHandler( async (req, res, next)=>{
+    const [currentCategory, allSteroidsInCategory] = await Promise.all([
+        Category.findById(req.params.id).exec(),
+        Steroid.find({category: req.params.id}, "name  description").exec(),
+    ]);
+
+    if(currentCategory === null){
+        res.redirect("/home/categories");
+    }
+
+    res.render("category_delete", {
+        title: "Delete category",
+        category: currentCategory,
+        list_of_steroids: allSteroidsInCategory,
+        });
+});
+
+
+exports.category_delete_post = asyncHandler( async (req, res, next) =>{
+    const [currentCategory, allSteroidsInCategory] = await Promise.all([
+        Category.findById(req.params.id).exec(),
+        Steroid.find({category: req.params.id}, "name  description").exec(),
+    ]);
+
+    if(allSteroidsInCategory.length > 0){
+        res.render("category_delete", {
+            title: "Delete category",
+            category: currentCategory,
+            list_of_steroids: allSteroidsInCategory,
+            });
+            return;
+    }else{
+        await Category.findByIdAndDelete(currentCategory._id);
+        res.redirect("/home/categories");
+    }
+})

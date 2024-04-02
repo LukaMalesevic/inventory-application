@@ -13,5 +13,9 @@ router.get("/steroid/:id", steroid_controller.steroid_details);
 router.get("/category/:id", category_controller.category_details);
 router.get("/steroids/create", steroid_controller.steroid_create_get);
 router.post("/steroids/create", steroid_controller.steroid_create_post);
+router.get("/category/:id/delete", category_controller.category_delete_get);
+router.post("/category/:id/delete", category_controller.category_delete_post);
+router.get("/steroid/:id/delete", steroid_controller.steroid_delete_get);
+router.post("/steroid/:id/delete", steroid_controller.steroid_delete_post);
 
 module.exports = router;

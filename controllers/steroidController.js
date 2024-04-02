@@ -82,3 +82,13 @@ exports.steroid_create_post = [
     
 ]
 
+exports.steroid_delete_get = asyncHandler(async (req, res, next) =>{
+    const currentSteroid = await Steroid.findById(req.params.id).exec();
+    res.render("steroid_delete", { title: "Delete steroid", steroid: currentSteroid});
+})
+
+exports.steroid_delete_post = asyncHandler(async (req, res, next) =>{
+    const currentSteroid = await Steroid.findById(req.params.id).exec();
+    await Steroid.findByIdAndDelete(currentSteroid._id);
+    res.redirect("/home/steroids");
+})
