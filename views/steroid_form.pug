@@ -4,17 +4,17 @@ block content
     h1= title 
     form(method="POST")
       label(for="steroid_name") Name:
-      input(type="text" name="steroid_name" placeholder="Steroid name")
+      input(type="text" name="steroid_name" placeholder="Steroid name" value=(undefined === steroid ? '' : steroid.name))
       label(for="steroid_description") Description:
-      input(type="text" name="steroid_description" placeholder="Steroid description")
+      input(type="text" name="steroid_description" placeholder="Steroid description" value=(undefined === steroid ? '' : steroid.description))
       label(for="steroid_category") Category:
       select#steroid(name="steroid_category" required) 
-        option(value="") select category 
+        option(value="") #{undefined===steroid ? 'select category' : steroid.category.name}
         for category in categories 
-          option(value=category._id) #{category.name} 
+            option(value=category._id) #{category.name} 
       label(for="steroid_price") Price:
-      input(type="number" name="steroid_price" placeholder="Steroid price")
+      input(type="number" name="steroid_price" placeholder="Steroid price" value=(undefined === steroid ? '' : steroid.price))
       label(for="steroid_count") Count:
-      input(type="number" name="steroid_count" placeholder="Steroid count")
+      input(type="number" name="steroid_count" placeholder="Steroid count" value=(undefined === steroid ? '' : steroid.number_in_stock))
       input(type="submit" value="Submit")
       

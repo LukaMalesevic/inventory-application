@@ -95,3 +95,19 @@ exports.category_delete_post = asyncHandler( async (req, res, next) =>{
         res.redirect("/home/categories");
     }
 })
+
+exports.category_update_get = asyncHandler( async(req, res, next) =>{
+    const currentCategory = await Category.findById(req.params.id).exec();
+    res.render("category_form", {title: "Update the form", category: currentCategory});
+});
+
+exports.category_update_post = asyncHandler(async(req, res, next)=>{
+    const category = new Category({
+        name: req.body.category_name,
+        description: req.body.category_description,
+        _id: req.params.id,
+    })
+
+    const updatedCategory = await Category.findByIdAndUpdate(req.params.id, category, {});
+    res.redirect(`/home/category/${req.params.id}`);
+})

@@ -92,3 +92,36 @@ exports.steroid_delete_post = asyncHandler(async (req, res, next) =>{
     await Steroid.findByIdAndDelete(currentSteroid._id);
     res.redirect("/home/steroids");
 })
+
+exports.steroid_update_get = asyncHandler(async (req, res, next) =>{
+    const steroidToUpdate = await Steroid.findById(req.params.id).populate("category").exec();
+    const allCategories = await Category.find().sort({ name: 1}).exec();
+    if(steroidToUpdate === null){
+        const err = new Error("Steroid not found");
+        err.status = 404;
+        return next(err);
+    }
+
+    allCategories.forEach((category) =>{
+        if(steroidToUpdate.category === category._id) category.checked = 'true';
+    })
+
+    res.render("steroid_form", {
+        title: "Update the Steroid LOL",
+        steroid: steroidToUpdate,
+        categories: allCategories,
+    })
+})
+
+exports.steroid_update_post = asyncHandler(async (req, res, next) =>{
+    const steroid = new Steroid({
+        name: req.body.steroid_name,
+        descripton: req.body.steroid_description,
+        category: req.body.steroid_category,
+        price: req.body.steroid_price,
+        number_in_stock: req.body.steroid_count,
+        _id: req.params.id,
+    })
+    const updatedSteroid = await Steroid.findByIdAndUpdate(req.params.id, steroid, {});
+    res.redirect(`/home/steroid/${updatedSteroid._id}`);
+})

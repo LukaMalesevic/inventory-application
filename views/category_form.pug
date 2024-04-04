@@ -4,8 +4,8 @@ block content
     h1= title 
     form(method="POST")
       label(for="category_name") Name:
-      input(type="text" name="category_name" placeholder="Category name")
+      input(type="text" name="category_name" placeholder="Category name" value=(undefined === category ? '' : category.name))
       label(for="description") Description:
-      input(type="text" name="category_description" placeholder="Description")
+      input(type="text" name="category_description" placeholder="Description" value=(undefined === category ? '' : category.description))
       input(type="submit" value="Submit")
       
